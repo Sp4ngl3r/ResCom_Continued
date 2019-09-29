@@ -1,0 +1,105 @@
+package ResCom_Continued;
+
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+
+import org.apache.pdfbox.multipdf.PDFMergerUtility;
+import com.lowagie.text.DocumentException;
+import com.lowagie.text.Image;
+import com.lowagie.text.Document;
+import com.lowagie.text.Rectangle;
+import com.lowagie.text.pdf.PdfWriter;
+import org.apache.commons.io.*;
+//import org.apache.commons.io.FileUtils;
+
+public class merger
+{ 
+	
+	public static String[] whole_text= new String[100];
+	public static String global_url= "C:/Directory_of_three_files/";
+	
+   public static void main(String args[])throws IOException, DocumentException
+   {     
+	 // add_image("table",1000,250);
+	 // add_image("pie_chart",1000,250);
+	 // converter.txt_to_pdf();
+	 // merge_all_pdf_files();
+	  create_images_and_text_files_folder();
+   }  
+   
+   public static void add_image(String image_name,int h, int w)throws IOException, DocumentException
+
+   {
+	      Image front = Image.getInstance(global_url+image_name+".png");
+	      Rectangle pageSize = new Rectangle(780, 525);
+	      Document document = new Document(pageSize);
+
+	      PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream(global_url+image_name+"_pdf.pdf"));
+	      document.open();
+
+	      front.scaleToFit(h, w);
+	      front.setAbsolutePosition(75, 185);
+	      document.add(front);
+
+	      document.close();
+   }
+   
+   public static void merge_all_pdf_files() throws IOException
+   {
+	   PDFMergerUtility pdm = new PDFMergerUtility();
+	   pdm.setDestinationFileName(global_url + "merged_file.pdf");
+	   
+	   File file1= new File(global_url+"table_pdf.pdf");
+	   pdm.addSource(file1);
+	   File file2= new File(global_url+"pie_chart_pdf.pdf");
+	   pdm.addSource(file2);
+	   File file3= new File(global_url+"grades.pdf");
+	   pdm.addSource(file3);
+	   
+	   pdm.mergeDocuments();
+
+   }
+   
+   public static void create_images_and_text_files_folder() throws IOException
+   {
+	   //File dir = new File(global_url+"images_and_text_file");
+	   //dir.mkdir();
+	   
+	   //Path src = Paths.get("C:/Directory_of_three_files");
+	   //Path dest = Paths.get(global_url+"images_and_text_file");
+	   
+	   //Files.copy(src, dest);
+	   
+	   //File source = new File("C:/Directory_of_three_files");
+	  // File dest = new File(global_url+"images_and_text_file");
+	   //try {
+	   //    FileUtils.copyDirectory(source, dest);
+	   //} catch (IOException e) {
+	 //      e.printStackTrace();
+	//   }
+	   File del= new File (global_url+"images_and_text_file");
+	  while(true)
+		  {
+		  	if(del.exists())
+		  	{
+		  		del.delete();
+		  		System.out.println("deleting");
+		  	}
+		  		
+		  	else
+		  	{
+		  		System.out.println();
+		  		break;
+		  	}
+		  		
+		  }
+	   
+	   
+	   
+   }
+   
+} 
